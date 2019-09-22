@@ -15,12 +15,12 @@
       <br>
 
       <template v-for="(word, idx) in brokenInput">
-        <v-chip outlined :key="word" v-on:click="clickChip(idx)">
+        <v-chip outlined :key="'chip' + idx + word" v-on:click="clickChip(idx)">
           {{ word }} 
         </v-chip>
       </template>
 
-      <p v-for="word in selected" :key="word">
+      <p v-for="(word, idx) in selected" :key="'given_answer' + idx + word">
         {{ word }}
       </p>
 
@@ -32,7 +32,7 @@
 export default {
   name: 'App',
   data: () => ({
-    input: 'i am shi heng dai',
+    input: '',
     answer: "",
     brokenInput: [],
     selected: []
