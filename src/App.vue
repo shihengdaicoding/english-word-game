@@ -1,28 +1,69 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-app-bar app>
+      <v-toolbar-title class="headline text-uppercase">
+        <span>English Word Game</span>
+      </v-toolbar-title>
+    </v-app-bar>
+
+    <v-content>
+      <v-textarea v-model="input" label="Input an English paragraph.">
+      </v-textarea>
+
+      <v-btn v-on:click="submitInput()">Submit</v-btn>
+
+      <br>
+
+      <template v-for="(word, idx) in brokenInput">
+        <v-chip outlined :key="word" v-on:click="clickChip(idx)">
+          {{ word }} 
+        </v-chip>
+      </template>
+
+      <p v-for="word in selected" :key="word">
+        {{ word }}
+      </p>
+
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
-</script>
+  name: 'App',
+  data: () => ({
+    input: 'i am shi heng dai',
+    answer: "",
+    brokenInput: [],
+    selected: []
+  }),
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  methods: {
+    shuffle(a) {
+      for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    },
+
+    submitInput() {
+      this.brokenInput = this.shuffle(this.input.split(' '));
+      this.answer = this.input;
+      this.input = "";
+    },
+
+    clickChip(idx) {
+      this.selected.push(this.brokenInput.splice(idx, 1)[0]);
+      if (this.selected.length == this.answer.split(" ").length) {
+        if (this.selected.join(' ') == this.answer) {
+          alert("Congratulations, you got it right!");
+        }
+        else {
+          alert("Nooooo, you got it wrong! :(");
+        }
+      }
+    }
+  }
+};
+</script>
