@@ -20,8 +20,10 @@
         </v-chip>
       </template>
 
-      <p v-for="(word, idx) in selected" :key="'given_answer' + idx + word">
-        {{ word }}
+      <p>
+        <span v-for="(word, idx) in selected" :key="'given_answer' + idx + word">
+          {{ word }}
+        </span>
       </p>
 
     </v-content>
@@ -58,12 +60,29 @@ export default {
       if (this.selected.length == this.answer.split(" ").length) {
         if (this.selected.join(' ') == this.answer) {
           alert("Congratulations, you got it right!");
+          this.initialize();
         }
         else {
-          alert("Nooooo, you got it wrong! :(");
+          alert("Noo, you got it wrong! :(");
+          // this.initialize();
         }
       }
+    },
+
+    initialize() {
+      this.input = '',
+      this.answer = "",
+      this.brokenInput = [],
+      this.selected = []
+    },
+
+    retry() {
+      return;
     }
   }
 };
 </script>
+
+<style scoped>
+
+</style>
